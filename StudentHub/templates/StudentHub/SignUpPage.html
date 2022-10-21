@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SignUp</title>
+</head>
+<body>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form action="user/" method="post">
+        {% csrf_token %}
+        Username:<br>
+        <input name="username">
+        <br>
+        Password:<br>
+        <input name="password">
+        <br>
+        Confirm Password:<br>
+        <input name="confirm_password">
+        <br>
+        Email:<br>
+        <input name="email">
+        <br>
+        First Name:<br>
+        <input name="firstname">
+        <br>
+        Last Name:<br>
+        <input name="lastname">
+
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>

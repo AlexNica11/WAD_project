@@ -1,0 +1,43 @@
+{% extends 'StudentHub/Blueprint.html' %}
+
+{% block content %}
+    {#    <h2>{% title %}</h2>#}
+    <style>
+        #addpost{
+            float: right !important;
+            font-size: 25px !important;
+            font-weight: bolder;
+            text-decoration: none;
+            border-left: 3px solid black;
+            border-bottom: 3px solid black;
+            height: 30px;
+            width: 30px;
+            text-align: center;
+        }
+    </style>
+    <div style="border: 3px solid cadetblue">
+        <div style="padding-top: 8px; padding-right: 8px">
+            <a href="{% url 'addpost' slug %}"  id="addpost">+</a>
+        </div>
+        <h2>{{ activity }}</h2>
+        {% for x in dataList %}
+            <div style="padding: 8px 16px;">
+                <div style="border: 2px solid black;">
+                    <div style="float: top">
+                        <h2 style="float: left">title={{ x.title }} author={{ x.author }} {{ slug }}</h2>
+                        <div style="float: right">
+                            <a>Edit</a>
+                            <a href="delete/{{ x.id }}/">Delete</a>
+                        </div>
+                    </div>
+                    <h2>description={{ x.description }}</h2>
+                    <h2>id={{ x.id }}</h2>
+                    <div style="float: bottom;">
+                        <h2 style="float: left">end={{ x.date_end }}</h2>
+                        <h2 style="float: right">publ={{ x.date }}</h2>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
