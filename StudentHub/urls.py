@@ -3,6 +3,7 @@ from . import views
 from django.contrib.auth.views import LoginView, LogoutView
 from StudentHub import views
 
+
 urlpatterns = [
     path('', views.hub, name='hub'),
     path('auth/login/', LoginView.as_view(template_name='StudentHub/LoginPage.html'), name='login-user'),
@@ -19,4 +20,5 @@ urlpatterns = [
     path('<slug:slug>/addpost/', views.addpost, name='addpost'),
     path('<slug:slug>/addpost/save/', views.addpost_save, name='addpost_save'),
     path('<slug:slug>/delete/<int:id>/', views.deletedata, name='deletedata'),
+    path('<slug:slug>/chat/<int:id>/', views.chat, name='chat'),
 ]

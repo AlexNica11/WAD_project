@@ -24,10 +24,11 @@
             <div style="padding: 8px 16px;">
                 <div style="border: 2px solid black;">
                     <div style="float: top">
-                        <h2 style="float: left">title={{ x.title }} author={{ x.author }} {{ slug }}</h2>
+                        <h2 style="float: left">title={{ x.title }} author={{ x.author }} activity={{ slug }}</h2>
                         <div style="float: right">
                             <a>Edit</a>
                             <a href="delete/{{ x.id }}/">Delete</a>
+                            <a href="chat/{{ x.id }}/">Chat</a>
                         </div>
                     </div>
                     <h2>description={{ x.description }}</h2>

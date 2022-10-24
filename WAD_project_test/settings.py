@@ -31,13 +31,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'StudentHub.apps.StudenthubConfig',
+    'daphne',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'channels',
+    'channels_redis',
+
+    'StudentHub.apps.StudenthubConfig',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +75,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'WAD_project_test.asgi.application'
 WSGI_APPLICATION = 'WAD_project_test.wsgi.application'
 
 
@@ -123,6 +130,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CHANNEL_LAYERS = {
+    'default': {
+        # 'BACKEND': 'channels.layers.InMemoryChannelLayer', # for testing only
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        }
+    },
+}
 
 LOGIN_REDIRECT_URL = 'hub'
 

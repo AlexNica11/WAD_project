@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.template import loader
 from django.contrib import messages
-from .models import HubPageDataModel
+from .models import HubPageDataModel, ChatMessages
 from django.forms.widgets import DateTimeInput
 # Create your views here.
 
@@ -44,6 +44,7 @@ def hub(request, *args, **kwargs):
 
     context= {}
     return render(request, 'StudentHub/Lobby.html', context)
+
 
 def addpost(request, slug):
     template = loader.get_template('StudentHub/AddPost.html')
@@ -83,6 +84,19 @@ def activity(request, slug):
         'activity': slug,
         'dataList': data.filter(subject=slug),
         'slug': slug,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def chat(request, slug, id):
+    template = loader.get_template('StudentHub/ChatRoom.html')
+
+    messageList = ChatMessages.objects.filter(subject=slug, room_id=id).values()
+
+    context = {
+        'messageList': messageList,
+        'section': slug,
+        'room_id': id,
     }
     return HttpResponse(template.render(context, request))
 

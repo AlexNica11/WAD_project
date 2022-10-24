@@ -9,3 +9,10 @@ class HubPageDataModel(models.Model):
     date_end = models.CharField(max_length=255, default='empty')
     description = models.TextField(default='empty')
     text = models.TextField()
+
+
+class ChatMessages(models.Model):
+    messageText = models.TextField()
+    user = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255)
+    room_id = models.CharField(max_length=255)

@@ -1,0 +1,68 @@
+{% extends 'StudentHub/Blueprint.html' %}
+
+{% block content %}
+    <div
+            class='chat__item__container'
+            id='id_chat_item_container'
+            style='font-size: 20px'
+    >
+        <br />
+        <input type="text" id="id_message_send_input" />
+        <button type="submit" id="id_message_send_button">Send Message</button>
+        {% if messageList %}
+            {% for x in messageList %}
+{#                <h2>{{ x.id }} {{ x.messageText }} {{ x.user }} {{ x.subject }} {{ x.room_id }}</h2>#}
+                {% if x.user == request.user.username %}
+                    <h2 style="right: 0px; text-align: right">{{ x.user }} : {{ x.messageText }} : {{ x.subject }} : {{ x.room_id }}</h2>
+                    {% else %}
+                    <h2 style="left: 0px; text-align: left">{{ x.user }} : {{ x.messageText }} : {{ x.subject }} : {{ x.room_id }}</h2>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+{#        <br />#}
+{#        <br />#}
+    </div>
+    <script>
+        /*let url_parse= window.location.toString();
+        if (window.location.protocol != null){
+            try {
+                url_parse = url_parse.replace((window.location.protocol.toString() + '//'), '');
+            }catch (error){
+                console.error(error);
+            }
+        }*/
+        console.log('url= ' + 'ws://' + window.location.host + '/ws' + window.location.pathname);
+        {#if(window.location.port)#}
+        {#    document.getElementById(option).setAttribute("href", window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + option + "/");#}
+        {#else#}
+        {#    document.getElementById(option).setAttribute("href", window.location.protocol + "//" + window.location.hostname + "/" + option + "/");#}
+        const chatSocket = new WebSocket('ws://' + window.location.host + '/ws' + window.location.pathname);
+        chatSocket.onopen = function (e){
+            console.log('The connection was setup successfully!');
+        };
+        chatSocket.onclose = function (e){
+            console.log('Something unexpected happened!');
+        };
+        document.querySelector('#id_message_send_input').focus();
+        document.querySelector('#id_message_send_input').onkeyup = function (e){
+            if(e.keyCode == 13){
+                document.querySelector('#id_message_send_button').click();
+            }
+        };
+        document.querySelector('#id_message_send_button').onclick = function (e){
+            var messageInput = document.querySelector('#id_message_send_input').value;
+            chatSocket.send(JSON.stringify({message: messageInput, username : '{{ request.user.username }}', section:'{{ section }}', room_id:'{{ room_id }}'}))
+        };
+        chatSocket.onmessage = function (e){
+            const data = JSON.parse(e.data);
+            var div = document.createElement('h2');
+            div.innerHTML = data.username + ' : ' + data.message + ' : ' + data.section + ' : ' + data.room_id;
+            if(data.username == '{{ request.user.username }}') {
+                div.style.right = '0px';
+                div.style.textAlign = 'right';
+            }
+            document.querySelector('#id_message_send_input').value='';
+            document.querySelector('#id_chat_item_container').appendChild(div);
+        };
+    </script>
+{% endblock %}
