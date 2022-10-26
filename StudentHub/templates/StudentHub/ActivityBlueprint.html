@@ -8,8 +8,8 @@
             font-size: 25px !important;
             font-weight: bolder;
             text-decoration: none;
-            border-left: 3px solid black;
-            border-bottom: 3px solid black;
+            {#border-left: 3px solid black;#}
+            {#border-bottom: 3px solid black;#}
             height: 30px;
             width: 30px;
             text-align: center;
@@ -17,7 +17,7 @@
     </style>
     <div class="w3-bottombar">
         <div style="padding-top: 8px; padding-right: 8px">
-            <a class="w3-text-red" href="{% url 'addpost' slug %}"  id="addpost">+</a>
+            <a class="w3-text-gray w3-hover-text-black" href="{% url 'addpost' slug %}"  id="addpost"><h1>+</h1></a>
         </div>
         <h2 class="w3-margin-left" style="color:dimgray">Available {{ activity }}:</h2>
         {% for x in dataList %}
