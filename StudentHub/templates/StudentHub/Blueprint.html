@@ -142,6 +142,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
         .w3-sidebar a {font-family: "Roboto", sans-serif}
         body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
@@ -159,11 +160,11 @@
         <h3 class="w3-wide"><b>Student's Hub</b></h3>
     </div>
     <div class="w3-padding-32 w3-large w3-text-white" style="font-weight:bold">
-        {#        <a onclick="url_parsing('parties')"  class="w3-bar-item w3-button" id="parties">Parties</a>#}
-        {#        <a onclick="url_parsing('jobs')" class="w3-bar-item w3-button" id="jobs">Jobs</a>#}
-        {#        <a onclick="url_parsing('events')"  class="w3-bar-item w3-button" id="events">Events</a>#}
-        {#        <a onclick="url_parsing('meets')"  class="w3-bar-item w3-button" id="meets">Meets</a>#}
-        {#        <a onclick="url_parsing('ideas')" class="w3-bar-item w3-button" id="ideas">Ideas</a>#}
+{#        <a onclick="url_parsing('parties')"  class="w3-bar-item w3-button" id="parties">Parties</a>#}
+{#        <a onclick="url_parsing('jobs')" class="w3-bar-item w3-button" id="jobs">Jobs</a>#}
+{#        <a onclick="url_parsing('events')"  class="w3-bar-item w3-button" id="events">Events</a>#}
+{#        <a onclick="url_parsing('meets')"  class="w3-bar-item w3-button" id="meets">Meets</a>#}
+{#        <a onclick="url_parsing('ideas')" class="w3-bar-item w3-button" id="ideas">Ideas</a>#}
         <h2 class="w3-wide w3-border-bottom w3-margin-left">Activities</h2>
         <a href="{% url 'activity' 'parties' %}"  class="{% if activity == 'parties'%}w3-light-grey{% endif %} w3-bar-item w3-button" id="parties">Parties</a>
         <a href="{% url 'activity' 'jobs' %}" class="{% if activity == 'jobs'%}w3-light-grey{% endif %} w3-bar-item w3-button" id="jobs">Jobs</a>
@@ -171,7 +172,7 @@
         <a href="{% url 'activity' 'meets' %}"  class="{% if activity == 'meets'%}w3-light-grey{% endif %} w3-bar-item w3-button" id="meets">Meets</a>
         <a href="{% url 'activity' 'ideas' %}" class="{% if activity == 'ideas'%}w3-light-grey{% endif %} w3-bar-item w3-button" id="ideas">Ideas</a>
 
-        {#        <a href="jobs/" class="w3-bar-item w3-button">Jobs</a>#}
+{#        <a href="jobs/" class="w3-bar-item w3-button">Jobs</a>#}
         <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-dark-grey w3-button w3-block w3-white w3-left-align" id="myBtn">
             Drop down <i class="fa fa-caret-down"></i>
         </a>
@@ -208,7 +209,7 @@
 
     <!-- Top header -->
     <div class="w3-container w3-xlarge w3-margin-top">
-        <h1 class="w3-wide" style="color: dimgray">Current Topics</h1>
+        <h1 class="w3-wide" style="color: dimgray">Explore</h1>
     </div>
 
     <!-- Image header -->
@@ -219,7 +220,8 @@
             {#                <h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>#}
             {#                <h1 class="w3-hide-small">COLLECTION 2016</h1>#}
             {#                <p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">SHOP NOW</a></p>#}
-            <h2 class="w3-left-align" style="color: dimgray; font-weight: bold">Explore</h2>
+
+            {#<h2 class="w3-left-align" style="color: dimgray; font-weight: bold">Explore</h2>#}
         </div>
         {% block content%}
         {% endblock %}
