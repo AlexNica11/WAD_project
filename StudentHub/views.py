@@ -1,5 +1,5 @@
 import datetime
-
+import re
 import django.forms.widgets
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.template import loader
 from django.contrib import messages
 from .models import HubPageDataModel, ChatMessages
+import datetime
 from django.forms.widgets import DateTimeInput
 # Create your views here.
 
@@ -18,21 +19,47 @@ def signup(request):
 
 
 def signupuser(request):
-    try:
-        user = User.objects.create_user(
-            request.POST['username'],
-            request.POST['email'],
-            request.POST['password'],
-            first_name=request.POST['firstname'],
-            last_name=request.POST['lastname']
-        )
-        user.save()
-    except Exception:
-        messages.error(request, 'Please complete all the fields.')
-        return HttpResponseRedirect(reverse('sign-up'))
+    username = request.POST['username']
+    email = request.POST['email']
+    password = request.POST['password']
+    first_name = request.POST['firstname']
+    last_name = request.POST['lastname']
+    err_mess = ''
+
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    if not re.fullmatch(regex, email) and email != '':
+        err_mess += 'Email is not the right format.'
+
+    if not (username.isidentifier()
+            and first_name.isalpha()
+            and last_name.isalpha()
+            and (not password.isspace())):
+        err_mess += 'Please complete all the fields with the right values.'
 
     if request.POST['password'] != request.POST['confirm_password']:
-        messages.error(request,  'Please match your password.')
+        err_mess += 'Please match your password.'
+
+    if err_mess != '':
+        messages.error(request,  err_mess)
+        return HttpResponseRedirect(reverse('sign-up'))
+
+    try:
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+        )
+
+        # if request.POST['password'] != request.POST['confirm_password']:
+        #     messages.error(request,  'Please match your password.')
+        #     return HttpResponseRedirect(reverse('sign-up'))
+
+        user.save()
+    except Exception as excep:
+        messages.error(request, 'Please complete all the fields.')
+        print('SignUp error: ' + str(excep))
         return HttpResponseRedirect(reverse('sign-up'))
 
     return HttpResponseRedirect(reverse('login-user'))
@@ -41,43 +68,63 @@ def signupuser(request):
 def hub(request, *args, **kwargs):
     if not request.user.is_authenticated:
         return redirect('login-user')
-
     context= {}
     return render(request, 'StudentHub/Lobby.html', context)
 
 
 def addpost(request, slug):
+    if not request.user.is_authenticated:
+        return redirect('login-user')
     template = loader.get_template('StudentHub/AddPost.html')
     return HttpResponse(template.render({}, request))
 
 
 def addpost_save(request, slug):
+    if not request.user.is_authenticated:
+        return redirect('login-user')
+    title = request.POST['title']
+    date_now = datetime.date.today().strftime('%Y-%m-%d %H:%M')
+    date_end = (request.POST['date_end'].replace('T', ' '))
+    description = request.POST['description']
+
+    if (not title.isidentifier()) or date_end == '' or description.isspace() or description == '' or date_end < date_now:
+        err_mess = ''
+        if date_end < date_now and date_end != '':
+            err_mess = ' End date must have a value grater than today.'
+        messages.error(request, 'Please complete all the fields with the right values.' + err_mess)
+        return HttpResponseRedirect(reverse('addpost', args=(slug,)))
+
     try:
         post = HubPageDataModel(
-            title=request.POST['title'],
-            subject=request.POST['subject'],
+            title=title,
+            subject=slug,
             author=request.user,
-            date=request.POST['date_now'],
-            date_end=request.POST['date'],
-            description=request.POST['description'],
-            text=request.POST['text']
+            date=date_now,
+            date_end=date_end,
+            description=description,
             )
         post.save()
     except Exception as excep:
         messages.error(request, 'Please complete all the fields.')
-        print(excep)
+        print('AddPost error: ' + str(excep))
         return HttpResponseRedirect(reverse('addpost', args=(slug,)))
 
     return HttpResponseRedirect(reverse('activity', args=(slug,)))
 
 
 def deletedata(request, id, slug):
+    if not request.user.is_authenticated:
+        return redirect('login-user')
     data = HubPageDataModel.objects.get(id=id)
+    messg = ChatMessages.objects.all().filter(subject=slug, room_id=id)
     data.delete()
+    messg.delete()
     return HttpResponseRedirect(reverse('activity', args=(slug,)))
 
 
 def activity(request, slug):
+    if not request.user.is_authenticated:
+        return redirect('login-user')
     template = loader.get_template('StudentHub/ActivityBlueprint.html')
     data = HubPageDataModel.objects.all().values()
     context = {
@@ -89,6 +136,8 @@ def activity(request, slug):
 
 
 def chat(request, slug, id):
+    if not request.user.is_authenticated:
+        return redirect('login-user')
     template = loader.get_template('StudentHub/ChatRoom.html')
 
     messageList = ChatMessages.objects.filter(subject=slug, room_id=id).values()
