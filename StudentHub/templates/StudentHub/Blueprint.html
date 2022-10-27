@@ -149,7 +149,7 @@
     </style>
 </head>
 <body class="main-content" style="max-width: 1200px; margin-left: auto; margin-right: auto">
-<center  class="w3-right-align w3-text-dark-grey w3-margin-right"><h1>{{ request.user }}</h1></center>
+<center  class="w3-text-dark-grey w3-margin-right w3-display-container"><h1 class="w3-wide" style="text-align: center">Student's Hub</h1><h1 class="w3-right-align">{{ request.user }}</h1></center>
 {% if request.user.is_authenticated %}
     <center class="w3-right-align w3-margin-right"><a href="{% url 'logout-user' %}">Logout</a></center>
 {% endif %}
@@ -220,7 +220,8 @@
             {% elif activity == 'events'%}Events
             {% elif activity == 'meets'%}Meets
             {% elif activity == 'ideas'%}Ideas
-            {% else %}Student's Hub
+            {% elif activity == 'contact'%}Contact
+            {% else %}Explore
             {% endif %}
         </h1>
     </div>
