@@ -1,0 +1,59 @@
+:root {
+    --main-light-color: #f9bbb1;
+    --main-dark-color: #481b0b;
+    --main-background-color: black;
+}
+
+.box{
+    width: 80vh;
+    height: 80vh;
+    /* border: solid black; */
+    margin: auto;
+    position: relative;
+    display: block;
+}
+
+.center{
+    padding-top: 50%;
+}
+
+.dialog-1{
+    height: 100px;
+    width: 40%;
+    background-color: var(--main-dark-color);
+    position: absolute;
+    border-radius: 10%;
+}
+
+.left-point{
+    width: 0;
+    height: 0;
+    border-left: 2vh solid transparent;
+    border-right: 2vh solid transparent;
+    border-top: 10vh solid var(--main-dark-color);
+    position: absolute;
+    top: 45%;
+    left: -10%;
+    transform: rotate(60deg);
+}
+
+.dialog-2{
+    height: 100px;
+    width: 40%;
+    background-color: var(--main-light-color);
+    position: absolute;
+    border-radius: 10%;
+    right: 0;
+}
+
+.right-point{
+    width: 0;
+    height: 0;
+    border-left: 2vh solid transparent;
+    border-right: 2vh solid transparent;
+    border-top: 10vh solid var(--main-light-color);
+    position: absolute;
+    top: 45%;
+    right: -10%;
+    transform: rotate(-60deg);
+}

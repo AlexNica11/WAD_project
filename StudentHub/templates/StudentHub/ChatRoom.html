@@ -1,6 +1,8 @@
 {% extends 'StudentHub/Blueprint.html' %}
-
+{% load static %}
 {% block content %}
+    <link rel="stylesheet" href="{% static 'StudentHub/chatbox.css' %}">
+
     <div
             class='chat__item__container'
             id='id_chat_item_container'
@@ -9,18 +11,42 @@
         <br />
         <input type="text" id="id_message_send_input" />
         <button type="submit" id="id_message_send_button">Send Message</button>
-        {% if messageList %}
-            {% for x in messageList %}
-{#                <h2>{{ x.id }} {{ x.messageText }} {{ x.user }} {{ x.subject }} {{ x.room_id }}</h2>#}
-                {% if x.user == request.user.username %}
-                    <h2 style="right: 0px; text-align: right">{{ x.user }} : {{ x.messageText }} : {{ x.subject }} : {{ x.room_id }}</h2>
+        <br />
+        <br />
+        <div class="w3-sidebar w3-label w3-light-gray" style="max-height: 200px;width: 950px;margin-left:-16px">
+            {% if messageList %}
+                {% for x in messageList %}
+                    {#                <h2>{{ x.id }} {{ x.messageText }} {{ x.user }} {{ x.subject }} {{ x.room_id }}</h2>#}
+                    {% if x.user == request.user.username %}
+                        <div class="dialog-2 w3-dark-gray">
+                            <h6>{{ x.user }}</h6>
+                            <h2>{{ x.messageText }}</h2>
+                        </div>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
                     {% else %}
-                    <h2 style="left: 0px; text-align: left">{{ x.user }} : {{ x.messageText }} : {{ x.subject }} : {{ x.room_id }}</h2>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-{#        <br />#}
-{#        <br />#}
+                        <div class="dialog-1 w3-gray">
+                            <h6>{{ x.user }}</h6>
+                            <h2>{{ x.messageText }}</h2>
+                        </div>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
     </div>
     <script>
         /*let url_parse= window.location.toString();
