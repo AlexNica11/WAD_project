@@ -118,7 +118,6 @@ def addpost_save(request, slug):
 
 def editpost(request, slug, id):
     post = HubPageDataModel.objects.get(subject=slug, id=id)
-    print(post.author + " " + str(request.user))
     if not request.user.is_authenticated:
         return redirect('login-user')
     if checkUserPermission(request) is False and post.author != str(request.user):
@@ -126,7 +125,6 @@ def editpost(request, slug, id):
 
     date_end = post.date_end.strftime('%Y-%m-%dT%H:%M')
     template = loader.get_template('StudentHub/EditPost.html')
-    print(date_end)
     context = {
         'post': post,
         'date_end': date_end,
@@ -185,7 +183,6 @@ def activity(request, slug):
     # checkPermission = False
     # if request.user.groups.filter(name='Moderators').exists():
     #     checkPermission = True
-    print(request.user.groups.filter(name='Moderators').exists())
     template = loader.get_template('StudentHub/ActivityBlueprint.html')
     data = HubPageDataModel.objects.all().values()
     context = {

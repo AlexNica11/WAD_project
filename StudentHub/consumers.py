@@ -3,7 +3,7 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-from .models import ChatMessages
+from .models import ChatMessages, HubPageDataModel
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -76,6 +76,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 return False
 
             mess = ChatMessages(
+                hubpagedatamodel=HubPageDataModel.objects.get(subject=section, id=room_id),
                 messageText=message,
                 user=user,
                 subject=section,

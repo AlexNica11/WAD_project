@@ -18,6 +18,6 @@ class ChatMessages(models.Model):
     user = models.CharField(max_length=255)
     subject = models.CharField(max_length=255)
     room_id = models.CharField(max_length=255)
-
+    hubpagedatamodel = models.ForeignKey(HubPageDataModel, on_delete=models.CASCADE, null=False, default=0)
     def __str__(self):
         return self.messageText

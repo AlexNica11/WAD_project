@@ -12,6 +12,7 @@ class HubPageDataModelAdmin(admin.ModelAdmin):
         ('Date information', {'fields': ['date', 'date_end']}),
         ('Description', {'fields': ['description']})
     ]
+    inlines = [ChatMessagesInline]
     list_display = ('title', 'subject', 'date_end')
     list_filter = ['date_end']
     search_fields = ['title']
