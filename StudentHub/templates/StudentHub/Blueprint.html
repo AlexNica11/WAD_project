@@ -158,7 +158,7 @@
     <div class="w3-container w3-grey w3-display-container w3-padding-16" style="height: 125px">
         <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
 {#        <h3 class="w3-wide"><b>Student's Hub</b></h3>#}
-        <a href="../">
+        <a href="{% url 'hub' %}">
             <img src="{% static 'StudentHub/desktop-goose-logo.png' %}" class="w3-hover-grayscale w3-display-middle" alt="GooseLogo" style="width: 100px;height: 100px">
         </a>
     </div>
@@ -254,7 +254,7 @@
     }
 
     // Click on the "Jeans" link on page load to open the accordion for demo purposes
-    document.getElementById("myBtn").click();
+    {#document.getElementById("myBtn").click();#}
 
 
     // Open and close sidebar
