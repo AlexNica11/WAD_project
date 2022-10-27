@@ -8,12 +8,15 @@
             id='id_chat_item_container'
             style='font-size: 20px'
     >
+        <h1 class="w3-wide" style="color: dimgray">
+            {{ title }}
+        </h1>
         <br />
         <input type="text" id="id_message_send_input" />
         <button type="submit" id="id_message_send_button">Send Message</button>
         <br />
         <br />
-        <div id="id_chat_scroll" class="w3-sidebar w3-label w3-light-gray" style="max-height: 400px;width: 950px;margin-left:-16px">
+        <div id="id_chat_scroll" class="w3-sidebar w3-label w3-light-gray" style="max-height: 45%;width: 950px;margin-left:-16px">
             {% if messageList %}
                 {% for x in messageList %}
                     {#                <h2>{{ x.id }} {{ x.messageText }} {{ x.user }} {{ x.subject }} {{ x.room_id }}</h2>#}

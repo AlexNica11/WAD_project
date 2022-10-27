@@ -201,11 +201,14 @@ def chat(request, slug, id):
 
     messageList = ChatMessages.objects.filter(subject=slug, room_id=id).values()
 
+    title = HubPageDataModel.objects.get(subject=slug, id=id).title
+
     context = {
         'messageList': messageList,
         'section': slug,
         'room_id': id,
         'activity': slug,
+        'title': title,
     }
     return HttpResponse(template.render(context, request))
 
