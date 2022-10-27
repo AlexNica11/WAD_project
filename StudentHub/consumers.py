@@ -71,7 +71,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     def saveMessage(self, message, user, section, room_id):
         try:
-            if message.isspace() or user is None or section is None or room_id is None :
+            if message.isspace() or user is None or section is None or room_id is None or message is '':
                 print('Message fields empty.')
                 return False
 
