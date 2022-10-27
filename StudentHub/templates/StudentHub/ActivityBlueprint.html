@@ -61,33 +61,39 @@
         }
     </style>
     <div class="w3-bottombar">
+        {% if activity != 'contact'%}
         <div style="padding-top: 8px; padding-right: 8px">
             <a class="w3-text-gray w3-hover-text-black" href="{% url 'addpost' slug %}"  id="addpost"><h1>+</h1></a>
         </div>
         <h2 class="w3-margin-left" style="color:dimgray">Available {{ activity }}:</h2>
         {% for x in dataList %}
             <div style="padding: 8px 16px;">
-                <div class="w3-display-container w3-round w3-hover-border-black" style="border-style: solid;border-width: 2px;border-color:gray; height:300px;">
+{#                <h1>{% if '/parties/' == request.path %}test{% endif %}</h1>#}
+                <div class="w3-display-container w3-hover-border-dark-gray" style="border-style: solid;border-width: 2px;border-color:gray; height:300px;">
                     <div class="w3-display-topright">
                         {% if request.user.username == x.author or checkPermission %}
                             <a href="edit/{{ x.id }}">Edit</a>
                             <a href="delete/{{ x.id }}/">Delete</a>
                         {% endif %}
                         <a href="chat/{{ x.id }}/">Chat</a>
+
                     </div>
-                    <h3 class="w3-display-topleft">Title: {{ x.title }}</h3>
-                    <div  class="w3-display-left w3-display-container" style="height:60%; width:100%">
-                        <h4 class="w3-display-topleft" style="margin-bottom:30px">Author: {{ x.author }} <!--activity={{ slug }}--></h4>
-                        <p class="w3-display-left">Description:</p>
-                        <p class="w3-display-bottomleft">{{ x.description }}</p>
+                    <div style="margin-left:5px">
+                        <h1 style="margin-top:-10px">{{ x.title }}</h1>
+                        <h4 style="margin-bottom:30px;margin-top:-10px">{{ x.author }} <!--activity={{ slug }}--></h4>
+                        <h3 >Description:</h3>
+                        <h4 style="margin-left:20px;margin-top:-10px">{{ x.description }}</h4>
                     </div>
                     <!--<h4>id={{ x.id }}</h4>-->
-                    <div class="w3-display-bottommiddle w3-display-container w3-margin-bottom" style="width:100%">
-                        <h4 class="w3-display-left">Ending: {{ x.date_end }}</h4>
-                        <h4 class="w3-display-right">Published: {{ x.date }}</h4>
-                    </div>
+                    <h4 class="w3-display-bottomleft" style="margin-left: 5px">Ending: {{ x.date_end }}</h4>
+                    <h4 class="w3-display-bottomright" style="margin-right: 5px">Published: {{ x.date }}</h4>
                 </div>
             </div>
         {% endfor %}
+        {% else %}
+            <h2 class="w3-margin-left" style="color:dimgray">Who we are:</h2>
+            <h3 class="w3-margin-left">GooseDuck Inc. SRL</h3>
+            <h4 class="w3-margin-left">As a brand new startup, our company wants to bring people closer together through technology.</h4>
+        {% endif %}
     </div>
 {% endblock %}

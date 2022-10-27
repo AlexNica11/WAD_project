@@ -632,40 +632,40 @@
             <span class="logmod__heading-subtitle">Enter your email and password to <strong>authenticate</strong></span>
         </div>
         <div class="logmod__form">
-            <form accept-charset="utf-8" action="#" class="simform">
-                <div class="sminputs">
+            <form method="post" accept-charset="utf-8" action="#" class="simform">
+                {% csrf_token %}
+                <div class="sminputs" style="height: 100px">
                     <div class="w3-light-gray input full">
-                        <label class="string optional" for="user-name">Email*</label>
-                        <input class="string optional" maxlength="255" id="user-email" placeholder="Email" type="email" size="50">
+                        <label class="string optional w3-margin-bottom" for="id_username"">Username*<div class="errorlist w3-right-align">This field is required.</div></label>
+                        <input type="text" name="username" autofocus="" autocapitalize="none" placeholder="Username" autocomplete="username" maxlength="150" required="" id="id_username">
                     </div>
                 </div>
-                <div class="sminputs">
+                <div class="sminputs" style="height: 100px">
                     <div class="w3-light-gray input full">
-                        <label class="string optional" for="user-pw">Password *</label>
-                        <input class="string optional" maxlength="255" id="user-pw" placeholder="Password" type="password" size="50">
+                        <label class="string optional" for="id_password">Password *<div class="errorlist w3-right-align">This field is required.</div></label>
+                        <input type="password" name="password" placeholder="Password" autocomplete="current-password" required="" id="id_password">
                     </div>
                 </div>
-                <div style="width: 100%">
+                <div class="w3-right-align" style="width: 100%">
                     <button class="w3-left-align w3-button" type="submit">Login</button>
-                    <a class="w3-right-align w3-button" href="signup/">Sign Up</a>
                 </div>
             </form>
         </div>
     </div>
 
+{#    <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">#}
+{#    <input type="password" name="password" autocomplete="current-password" required="" id="id_password">#}
 
-
-
-    <div class="w3-container w3-grey" style="margin-top: 200px; margin-left: 15%; margin-right: 15%">
-        <h3 class="w3-header">AUTHENTICATION</h3>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <br>
-            <button class="w3-label" type="submit">Login</button>
-        </form>
-        <a href="signup/">Sign Up</a>
-    </div>
+{#    <div class="w3-container w3-grey" style="margin-top: 200px; margin-left: 15%; margin-right: 15%">#}
+{#        <h3 class="w3-header">AUTHENTICATION</h3>#}
+{#        <form method="post">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#            <br>#}
+{#            <button class="w3-label" type="submit">Login</button>#}
+{#        </form>#}
+{#        <a href="signup/">Sign Up</a>#}
+{#    </div>#}
 
 
 </body>
