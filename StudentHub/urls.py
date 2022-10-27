@@ -21,4 +21,6 @@ urlpatterns = [
     path('<slug:slug>/addpost/save/', views.addpost_save, name='addpost_save'),
     path('<slug:slug>/delete/<int:id>/', views.deletedata, name='deletedata'),
     path('<slug:slug>/chat/<int:id>/', views.chat, name='chat'),
+    path('<slug:slug>/edit/<int:id>/', views.editpost, name='editpost'),
+    path('<slug:slug>/edit/<int:id>/save/', views.editpost_save, name='editpost_save'),
 ]

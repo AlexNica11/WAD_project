@@ -69,8 +69,10 @@
             <div style="padding: 8px 16px;">
                 <div class="w3-display-container w3-round w3-hover-border-black" style="border-style: solid;border-width: 2px;border-color:gray; height:300px;">
                     <div class="w3-display-topright">
-                        <a>Edit</a>
-                        <a href="delete/{{ x.id }}/">Delete</a>
+                        {% if request.user.username == x.author or checkPermission %}
+                            <a href="edit/{{ x.id }}">Edit</a>
+                            <a href="delete/{{ x.id }}/">Delete</a>
+                        {% endif %}
                         <a href="chat/{{ x.id }}/">Chat</a>
                     </div>
                     <h3 class="w3-display-topleft">Title: {{ x.title }}</h3>

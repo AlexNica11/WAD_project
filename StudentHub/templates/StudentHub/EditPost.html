@@ -1,0 +1,25 @@
+{% extends 'StudentHub/Blueprint.html' %}
+
+{% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form action="save/" method="post">
+        {% csrf_token %}
+        Title:<br>
+        <input name="title" value="{{ post.title }}">
+        <br>
+        End Date:<br>
+        <input name="date_end" type="datetime-local" value="{{ date_end }}">
+        <br>
+        Description:<br>
+        <textarea name="description">{{ post.description }}</textarea>
+        <br>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

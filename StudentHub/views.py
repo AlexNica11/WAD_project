@@ -13,6 +13,10 @@ from django.forms.widgets import DateTimeInput
 # Create your views here.
 
 
+def checkUserPermission(request):
+    return request.user.groups.filter(name='Moderators').exists() or request.user.is_superuser
+
+
 def signup(request):
     template = loader.get_template('StudentHub/SignUpPage.html')
     return HttpResponse(template.render({}, request))
@@ -112,10 +116,63 @@ def addpost_save(request, slug):
     return HttpResponseRedirect(reverse('activity', args=(slug,)))
 
 
+def editpost(request, slug, id):
+    post = HubPageDataModel.objects.get(subject=slug, id=id)
+    print(post.author + " " + str(request.user))
+    if not request.user.is_authenticated:
+        return redirect('login-user')
+    if checkUserPermission(request) is False and post.author != str(request.user):
+        return HttpResponseRedirect(reverse('activity', args=(slug, )))
+
+    date_end = post.date_end.strftime('%Y-%m-%dT%H:%M')
+    template = loader.get_template('StudentHub/EditPost.html')
+    print(date_end)
+    context = {
+        'post': post,
+        'date_end': date_end,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def editpost_save(request, slug, id):
+    if not request.user.is_authenticated:
+        return redirect('login-user')
+    title = request.POST['title']
+    date_now = datetime.date.today().strftime('%Y-%m-%d %H:%M')
+    date_end = (request.POST['date_end'].replace('T', ' '))
+    description = request.POST['description']
+    post = HubPageDataModel.objects.get(subject=slug, id=id)
+    if checkUserPermission(request) is False and post.author != str(request.user):
+        return HttpResponseRedirect(reverse('activity', args=(slug, )))
+
+    if (not title.isidentifier()) or date_end == '' or description.isspace() or description == '' or date_end < date_now:
+        err_mess = ''
+        if date_end < date_now and date_end != '':
+            err_mess = ' End date must have a value grater than today.'
+        messages.error(request, 'Please complete all the fields with the right values.' + err_mess)
+        return HttpResponseRedirect(reverse('editpost', args=(slug, id,)))
+
+    try:
+        post.title = title
+        post.date = date_now
+        post.date_end = date_end
+        post.description = description
+        post.save()
+    except Exception as excep:
+        messages.error(request, 'Please complete all the fields.')
+        print('AddPost error: ' + str(excep))
+        return HttpResponseRedirect(reverse('editpost', args=(slug, id,)))
+
+    return HttpResponseRedirect(reverse('activity', args=(slug,)))
+
+
 def deletedata(request, id, slug):
     if not request.user.is_authenticated:
         return redirect('login-user')
     data = HubPageDataModel.objects.get(id=id)
+    print(checkUserPermission(request) is False)
+    if checkUserPermission(request) is False and data.author != str(request.user):
+        return HttpResponseRedirect(reverse('activity', args=(slug, )))
     messg = ChatMessages.objects.all().filter(subject=slug, room_id=id)
     data.delete()
     messg.delete()
@@ -125,12 +182,17 @@ def deletedata(request, id, slug):
 def activity(request, slug):
     if not request.user.is_authenticated:
         return redirect('login-user')
+    # checkPermission = False
+    # if request.user.groups.filter(name='Moderators').exists():
+    #     checkPermission = True
+    print(request.user.groups.filter(name='Moderators').exists())
     template = loader.get_template('StudentHub/ActivityBlueprint.html')
     data = HubPageDataModel.objects.all().values()
     context = {
         'activity': slug,
         'dataList': data.filter(subject=slug),
         'slug': slug,
+        'checkPermission': checkUserPermission(request),
     }
     return HttpResponse(template.render(context, request))
 
@@ -148,5 +210,6 @@ def chat(request, slug, id):
         'room_id': id,
     }
     return HttpResponse(template.render(context, request))
+
 
 
