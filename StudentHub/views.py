@@ -87,7 +87,7 @@ def addpost_save(request, slug):
     if not request.user.is_authenticated:
         return redirect('login-user')
     title = request.POST['title']
-    date_now = datetime.date.today().strftime('%Y-%m-%d %H:%M')
+    date_now = datetime.datetime.today().strftime('%Y-%m-%d %H:%M')
     date_end = (request.POST['date_end'].replace('T', ' '))
     description = request.POST['description']
 
@@ -136,7 +136,7 @@ def editpost_save(request, slug, id):
     if not request.user.is_authenticated:
         return redirect('login-user')
     title = request.POST['title']
-    date_now = datetime.date.today().strftime('%Y-%m-%d %H:%M')
+    date_now = datetime.datetime.today().strftime('%Y-%m-%d %H:%M')
     date_end = (request.POST['date_end'].replace('T', ' '))
     description = request.POST['description']
     post = HubPageDataModel.objects.get(subject=slug, id=id)
@@ -184,6 +184,13 @@ def activity(request, slug):
     # if request.user.groups.filter(name='Moderators').exists():
     #     checkPermission = True
     template = loader.get_template('StudentHub/ActivityBlueprint.html')
+    data = HubPageDataModel.objects.all()
+    date_now = datetime.datetime.today().strftime('%Y-%m-%d %H:%M')
+
+    for x in data:
+        print(x.date_end.strftime('%Y-%m-%d %H:%M') + " " + date_now)
+        if x.date_end.strftime('%Y-%m-%d %H:%M') < date_now:
+            x.delete()
     data = HubPageDataModel.objects.all().values()
     context = {
         'activity': slug,
