@@ -6,8 +6,12 @@ class HubPageDataModel(models.Model):
     subject = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     date = models.DateTimeField(['%Y-%m-%d %H:%M'], max_length=255)
-    date_end = models.DateTimeField(['%Y-%m-%d %H:%M'], max_length=255, default='empty')
+    date_end = models.DateTimeField(['%Y-%m-%d %H:%M'], max_length=255, default='2000-01-01 10:10')
     description = models.TextField(default='empty')
+
+    @property
+    def ending_date(self):
+        return self.date_end
 
     def __str__(self):
         return self.title

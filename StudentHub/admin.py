@@ -9,11 +9,13 @@ class ChatMessagesInline(admin.TabularInline):
 class HubPageDataModelAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['title', 'subject', 'author']}),
-        ('Date information', {'fields': ['date', 'date_end']}),
+        # ('Date information', {'fields': ['date', 'date_end']}),
+        ('Starting Date', {'fields': ['date']}),
+        ('Ending Date', {'fields': ['date_end']}),
         ('Description', {'fields': ['description']})
     ]
     inlines = [ChatMessagesInline]
-    list_display = ('title', 'subject', 'date_end')
+    list_display = ('title', 'subject', 'ending_date')
     list_filter = ['date_end']
     search_fields = ['title']
 
