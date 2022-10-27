@@ -205,6 +205,7 @@ def chat(request, slug, id):
         'messageList': messageList,
         'section': slug,
         'room_id': id,
+        'activity': slug,
     }
     return HttpResponse(template.render(context, request))
 

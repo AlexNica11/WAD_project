@@ -624,13 +624,13 @@
     </style>
 </head>
 <body>
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+{#    {% if messages %}#}
+{#        <ul class="messages">#}
+{#            {% for message in messages %}#}
+{#                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% endif %}#}
 
     <div class="w3-light-gray" style="margin-top: 200px; margin-left: 15%; margin-right: 15%">
         <ul class="logmod__tabs">
@@ -682,6 +682,13 @@
                 </div>
             </form>
         </div>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
 
 {#    {% if messages %}#}
