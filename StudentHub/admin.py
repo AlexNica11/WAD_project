@@ -16,7 +16,7 @@ class HubPageDataModelAdmin(admin.ModelAdmin):
     ]
     inlines = [ChatMessagesInline]
     list_display = ('title', 'subject', 'ending_date')
-    list_filter = ['date_end']
+    list_filter = ['subject']
     search_fields = ['title']
 
 
