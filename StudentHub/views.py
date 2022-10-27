@@ -188,7 +188,6 @@ def activity(request, slug):
     date_now = datetime.datetime.today().strftime('%Y-%m-%d %H:%M')
 
     for x in data:
-        print(x.date_end.strftime('%Y-%m-%d %H:%M') + " " + date_now)
         if x.date_end.strftime('%Y-%m-%d %H:%M') < date_now:
             x.delete()
     data = HubPageDataModel.objects.all().values()
