@@ -22,20 +22,16 @@
                             <h6>{{ x.user }}</h6>
                             <h2>{{ x.messageText }}</h2>
                         </div>
-                        <br />
-                        <br />
-                        <br />
-                        <br />
                     {% else %}
                         <div class="dialog-1 w3-gray">
                             <h6>{{ x.user }}</h6>
                             <h2>{{ x.messageText }}</h2>
                         </div>
-                        <br />
-                        <br />
-                        <br />
-                        <br />
                     {% endif %}
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                 {% endfor %}
             {% endif %}
         </div>
@@ -82,6 +78,7 @@
             var messageInput = document.querySelector('#id_message_send_input').value;
             chatSocket.send(JSON.stringify({message: messageInput, username : '{{ request.user.username }}', section:'{{ section }}', room_id:'{{ room_id }}'}))
         };
+
         chatSocket.onmessage = function (e){
             const data = JSON.parse(e.data);
             /*var div = document.createElement('h2');
@@ -90,23 +87,33 @@
                 div.style.right = '0px';
                 div.style.textAlign = 'right';
             }*/
-
+            var messFragment = document.createDocumentFragment();
             var docFragment = document.createDocumentFragment();
+            //messFragment.appendChild(docFragment);
             var div = document.createElement('div');
             var h6 = document.createElement('h6');
             var h2 = document.createElement('h2');
 
-            div.classList.add("dialog-2");
-            div.classList.add("w3-dark-gray");
+            if(data.username == '{{ request.user.username }}') {
+                div.classList.add("dialog-2");
+                div.classList.add("w3-dark-gray");
+            }
+            else{
+                div.classList.add("dialog-1");
+                div.classList.add("w3-gray");
+            }
             h6.innerHTML= data.username;
             h2.innerHTML= data.message;
-
+            var br = document.createElement('h3');
+            br.innerHTML='<br><br><br>';
             docFragment.appendChild(div);
+            docFragment.appendChild(br);
+
             div.appendChild(h6);
             div.appendChild(h2);
 
             document.querySelector('#id_message_send_input').value='';
-            document.querySelector('#id_chat_scroll').appendChild(div);
+            document.querySelector('#id_chat_scroll').append(docFragment);
             document.querySelector('#id_chat_scroll').scrollTop = document.querySelector('#id_chat_scroll').scrollHeight;
         };
     </script>
