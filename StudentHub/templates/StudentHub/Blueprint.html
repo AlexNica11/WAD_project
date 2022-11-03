@@ -221,11 +221,18 @@
             {% elif activity == 'meets'%}Meets
             {% elif activity == 'ideas'%}Ideas
             {% elif activity == 'contact'%}Contact
+            {% elif activity == 'search'%}Search
             {% else %}Explore
             {% endif %}
         </h1>
     </div>
+{#    <div class="w3-right-align" style="width:100%;align-self: flex-end">#}
 
+    <form action="{% url 'search' %}" method="post" class="w3-right-align" style="margin-right:10px;margin-bottom:10px;align-self: flex-end">
+        {% csrf_token %}
+        <input name="search_bar">
+        <input type="submit" value="Search">
+    </form>
     <!-- Image header -->
     <div class="w3-display-container w3-container">
         {#            <img src="/w3images/jeans.jpg" alt="Jeans" style="width:100%">#}

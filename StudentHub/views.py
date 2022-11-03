@@ -1,6 +1,8 @@
 import datetime
 import re
 import django.forms.widgets
+
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -219,4 +221,36 @@ def chat(request, slug, id):
     return HttpResponse(template.render(context, request))
 
 
+def search_bar(request):
+    slug = 'search'
+    if not request.user.is_authenticated:
+        return redirect('login-user')
+    # checkPermission = False
+    # if request.user.groups.filter(name='Moderators').exists():
+    #     checkPermission = True
+    template = loader.get_template('StudentHub/ActivityBlueprint.html')
+    data = HubPageDataModel.objects.all()
+    date_now = datetime.datetime.today().strftime('%Y-%m-%d %H:%M')
+
+    for x in data:
+        if x.date_end.strftime('%Y-%m-%d %H:%M') < date_now:
+            x.delete()
+
+    search_value = request.POST['search_bar']
+    data = HubPageDataModel.objects.all().values().filter(
+        Q(title__icontains=search_value) |
+        Q(subject__icontains=search_value) |
+        Q(description__icontains=search_value) |
+        Q(author__icontains=search_value)
+    )
+    if search_value == '' or search_value.isspace():
+        data = None 
+
+    context = {
+        'activity': slug,
+        'dataList': data,
+        'slug': slug,
+        'checkPermission': checkUserPermission(request),
+    }
+    return HttpResponse(template.render(context, request))
 

@@ -23,4 +23,5 @@ urlpatterns = [
     path('<slug:slug>/chat/<int:id>/', views.chat, name='chat'),
     path('<slug:slug>/edit/<int:id>/', views.editpost, name='editpost'),
     path('<slug:slug>/edit/<int:id>/save/', views.editpost_save, name='editpost_save'),
+    path('search/bar/', views.search_bar, name='search'),
 ]
