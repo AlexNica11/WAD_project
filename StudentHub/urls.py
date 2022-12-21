@@ -26,4 +26,5 @@ urlpatterns = [
     path('search/bar/', views.search_bar, name='search'),
     path('contact/dev/', views.contact_dev, name='contact_dev'),
     path('contact/dev/save/', views.contact_dev_save, name='contact_dev_save'),
+    # path('contact/messages', views.dev_messages, name='dev_messages'),
 ]

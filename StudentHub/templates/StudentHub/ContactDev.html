@@ -13,20 +13,9 @@
         Title:<br>
         <input name="title">
         <br>
-        {#        Subject:<br>#}
-        {#        <input name="subject">#}
-        {#        <br>#}
-        {#        Author:<br>#}
-        {#        <input name="author">#}
-        {#        <br>#}
-{#        End Date:<br>#}
-{#        <input name="date_end" type="datetime-local">#}
-{#        <br>#}
-        Description:<br>
-        <textarea name="description"></textarea>
+        Message:<br>
+        <textarea name="message"></textarea>
         <br>
-{#        Dev :<br>#}
-{#        <input name="developer">#}
         <label for="devs">Choose a developer:</label>
         <select name="developer" id="devs" required>
             {% for x in devList %}
@@ -34,13 +23,7 @@
             {% endfor %}
         </select>
         <br>
-        {#        Text:<br>#}
-        {#        <input name="text">#}
-        {#        <input name="date_now" type="datetime-local" id="date_now"hidden>#}
         <br><br>
         <input type="submit" value="Submit">
     </form>
-    <script>
-        document.getElementById('date_now').innerHTML=Date.now().toString();
-    </script>
 {% endblock %}

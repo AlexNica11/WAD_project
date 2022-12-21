@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class HubPageDataModel(models.Model):
@@ -23,5 +24,20 @@ class ChatMessages(models.Model):
     subject = models.CharField(max_length=255)
     room_id = models.CharField(max_length=255)
     hubpagedatamodel = models.ForeignKey(HubPageDataModel, on_delete=models.CASCADE, null=False, default=0)
+
     def __str__(self):
         return self.messageText
+
+
+class Contacts(models.Model):
+    full_name = models.CharField(max_length=255)
+    contact_phone = models.CharField(max_length=12)
+    dev_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False, default=0)
+
+
+class Questions(models.Model):
+    title = models.CharField(max_length=255)
+    message = models.TextField(default='empty')
+    date = models.DateTimeField(['%Y-%m-%d %H:%M'], max_length=255)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False, default=0)
+    contact_id = models.ForeignKey(Contacts, on_delete=models.CASCADE, null=False, default=0)

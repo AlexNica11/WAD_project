@@ -270,10 +270,10 @@ def contact_dev(request):
 def contact_dev_save(request):
     title = request.POST['title']
     date_now = datetime.datetime.today().strftime('%Y-%m-%d %H:%M')
-    description = request.POST['description']
+    message = request.POST['message']
     developer = request.POST['developer']
 
-    if (not title.isidentifier()) or description.isspace() or description == '':
+    if (not title.isidentifier()) or message.isspace() or message == '':
         messages.error(request, 'Please complete all the fields with the right values.')
         return HttpResponseRedirect(reverse('contact_dev'))
 
