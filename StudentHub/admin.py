@@ -21,4 +21,12 @@ class HubPageDataModelAdmin(admin.ModelAdmin):
 
 
 admin.site.register(HubPageDataModel, HubPageDataModelAdmin)
+
+'''
+class QuestionsAdmin(admin.ModelAdmin):
+    fieldsets = [
+        
+    ]
+'''
+
 # Register your models here.

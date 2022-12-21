@@ -19,7 +19,7 @@
         <label for="devs">Choose a developer:</label>
         <select name="developer" id="devs" required>
             {% for x in devList %}
-                <option>{{ x.username }}</option>
+                <option>{{ x.full_name }}</option>
             {% endfor %}
         </select>
         <br>

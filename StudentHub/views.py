@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.template import loader
 from django.contrib import messages
-from .models import HubPageDataModel, ChatMessages
+from .models import HubPageDataModel, ChatMessages, Contacts, Questions
 import datetime
 from django.forms.widgets import DateTimeInput
 # Create your views here.
@@ -259,7 +259,7 @@ def contact_dev(request):
     if not request.user.is_authenticated:
         return redirect('login-user')
     template = loader.get_template('StudentHub/ContactDev.html')
-    devList = User.objects.all().values() # this has to be replaced with contacts
+    devList = Contacts.objects.values()  # this has to be replaced with contacts
     context = {
         'activity': 'contact_dev',
         'devList': devList,
@@ -268,6 +268,8 @@ def contact_dev(request):
 
 
 def contact_dev_save(request):
+    if not request.user.is_authenticated:
+        return redirect('login-user')
     title = request.POST['title']
     date_now = datetime.datetime.today().strftime('%Y-%m-%d %H:%M')
     message = request.POST['message']
@@ -277,7 +279,23 @@ def contact_dev_save(request):
         messages.error(request, 'Please complete all the fields with the right values.')
         return HttpResponseRedirect(reverse('contact_dev'))
 
-    #print(title, ' ', date_now, ' ', description, ' ', developer)
+    try:
+        post = Questions(
+            title=title,
+            message=message,
+            date=date_now,
+            user_id=User.objects.get(username=request.user),
+            contact_id=Contacts.objects.get(full_name=developer),
+        )
+        post.save()
+    except Exception as excep:
+        messages.error(request, 'Please complete all the fields.')
+        return HttpResponseRedirect(reverse('contact_dev'))
+
 
     return HttpResponseRedirect(reverse('hub'))
+
+
+
+
 
