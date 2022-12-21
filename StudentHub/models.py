@@ -34,6 +34,9 @@ class Contacts(models.Model):
     contact_phone = models.CharField(max_length=12)
     dev_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False, default=0)
 
+    def __str__(self):
+        return self.full_name
+
 
 class Questions(models.Model):
     title = models.CharField(max_length=255)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HubPageDataModel, ChatMessages
+from .models import HubPageDataModel, ChatMessages, Questions
 
 
 class ChatMessagesInline(admin.TabularInline):
@@ -22,11 +22,17 @@ class HubPageDataModelAdmin(admin.ModelAdmin):
 
 admin.site.register(HubPageDataModel, HubPageDataModelAdmin)
 
-'''
+
 class QuestionsAdmin(admin.ModelAdmin):
     fieldsets = [
-        
+        (None, {'fields': ['title', 'date', 'user_id', 'contact_id']}),
+        ('Message', {'fields': ['message']}),
     ]
-'''
+    list_display = ('title', )
+    list_filter = ['date']
+    search_fields = ['title']
+
+
+admin.site.register(Questions, QuestionsAdmin)
 
 # Register your models here.
