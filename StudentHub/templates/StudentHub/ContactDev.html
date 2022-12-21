@@ -4,7 +4,7 @@
     {% if messages %}
         <ul class="messages">
             {% for message1 in messages %}
-                <li>{% if message1.tags %} {% endif %} {{ message1 }}</li>
+                <li {% if message1.tags %} class="{{ message1.tags }}" {% endif %} > {{ message1 }}</li>
             {% endfor %}
         </ul>
     {% endif %}
