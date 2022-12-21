@@ -119,6 +119,8 @@ def addpost_save(request, slug):
 
 
 def editpost(request, slug, id):
+    if not request.user.is_authenticated:
+        return redirect('login-user')
     post = HubPageDataModel.objects.get(subject=slug, id=id)
     if not request.user.is_authenticated:
         return redirect('login-user')
@@ -185,7 +187,7 @@ def activity(request, slug):
     # checkPermission = False
     # if request.user.groups.filter(name='Moderators').exists():
     #     checkPermission = True
-    print('activity ' + slug)
+    # print('activity ' + slug)
     template = loader.get_template('StudentHub/ActivityBlueprint.html')
     # if slug == 'contact' and request.user.groups.filter(name='Developers').exists():
     #     print('contact')
@@ -212,18 +214,25 @@ def activity(request, slug):
     data = HubPageDataModel.objects.all().values()
 
     try:
-        questionList = Questions.objects.select_related('contact_id__dev_id')
+        questionList = Questions.objects.select_related('contact_id__dev_id').filter(contact_id__dev_id__username=request.user)
         # for x1 in questionList:
         #     print(x1.title)
     except Exception as excep:
         print('Contact error: ' + str(excep))
 
+    devList = Contacts.objects.all()
+    # for x1 in devList:
+    #     print(x1.full_name)
+    # print('request: ', request.user)
+    # print('sheesh: ', (User.objects.get(username=request.user).first_name + ' ' + User.objects.get(username=request.user).last_name))
     context = {
         'activity': slug,
         'dataList': data.filter(subject=slug),
         'slug': slug,
         'checkPermission': checkUserPermission(request),
+        'devList': devList,
         'questionList': questionList,
+        'user': (User.objects.get(username=request.user).first_name + ' ' + User.objects.get(username=request.user).last_name),
     }
 
     return HttpResponse(template.render(context, request))
@@ -319,7 +328,8 @@ def contact_dev_save(request):
         messages.error(request, 'Please complete all the fields.')
         return HttpResponseRedirect(reverse('contact_dev'))
 
-    return HttpResponseRedirect(reverse('hub'))
+    # return HttpResponseRedirect(reverse('contact'))
+    return HttpResponseRedirect(reverse('activity', args=('contact',)))
 
 
 
