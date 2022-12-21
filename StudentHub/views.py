@@ -185,7 +185,24 @@ def activity(request, slug):
     # checkPermission = False
     # if request.user.groups.filter(name='Moderators').exists():
     #     checkPermission = True
+    print('activity ' + slug)
     template = loader.get_template('StudentHub/ActivityBlueprint.html')
+    # if slug == 'contact' and request.user.groups.filter(name='Developers').exists():
+    #     print('contact')
+    #     try:
+    #         dev = Questions.objects.select_related('contact_id').select_related('contact_id__dev_id').filter(contact_id__dev_id__username=request.user)
+    #     except Exception as excep:
+    #         print('Contact error: ' + str(excep))
+    #
+    #     for x1 in dev:
+    #         print(dev.title)
+    #     questionList = None # Questions. # Questions.objects.filter(contact_id=Contacts.objects.filter(dev_id))
+    #     context = {
+    #         'questionList': 'questionList',
+    #         'slug': slug,
+    #     }
+    #
+    # else:
     data = HubPageDataModel.objects.all()
     date_now = datetime.datetime.today().strftime('%Y-%m-%d %H:%M')
 
@@ -193,12 +210,22 @@ def activity(request, slug):
         if x.date_end.strftime('%Y-%m-%d %H:%M') < date_now:
             x.delete()
     data = HubPageDataModel.objects.all().values()
+
+    try:
+        questionList = Questions.objects.select_related('contact_id__dev_id')
+        # for x1 in questionList:
+        #     print(x1.title)
+    except Exception as excep:
+        print('Contact error: ' + str(excep))
+
     context = {
         'activity': slug,
         'dataList': data.filter(subject=slug),
         'slug': slug,
         'checkPermission': checkUserPermission(request),
+        'questionList': questionList,
     }
+
     return HttpResponse(template.render(context, request))
 
 
@@ -292,8 +319,8 @@ def contact_dev_save(request):
         messages.error(request, 'Please complete all the fields.')
         return HttpResponseRedirect(reverse('contact_dev'))
 
-
     return HttpResponseRedirect(reverse('hub'))
+
 
 
 
