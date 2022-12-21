@@ -8,7 +8,7 @@
             {% endfor %}
         </ul>
     {% endif %}
-    <form action="save/" method="post">
+    <form class="w3-wide" style="margin-left: 20px;margin-top: 10px;color: dimgray" action="save/" method="post"><h4>
         {% csrf_token %}
         Title:<br>
         <input name="title">
@@ -24,6 +24,7 @@
         </select>
         <br>
         <br><br>
-        <input type="submit" value="Submit">
+        <input class="w3-button w3-large" style="margin-left: 815px;" type="submit" value="Submit">
+    </h4>
     </form>
 {% endblock %}
