@@ -99,5 +99,8 @@
             <h3 class="w3-margin-left">GooseDuck Inc. SRL</h3>
             <h4 class="w3-margin-left">As a brand new startup, our company wants to bring people closer together through technology.</h4>
         {% endif %}
+    {% if activity == 'contact' %}
+        <a href="{% url 'contact_dev' %}">Contact Dev</a>
+    {% endif %}
     </div>
 {% endblock %}

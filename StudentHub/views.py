@@ -254,3 +254,30 @@ def search_bar(request):
     }
     return HttpResponse(template.render(context, request))
 
+
+def contact_dev(request):
+    if not request.user.is_authenticated:
+        return redirect('login-user')
+    template = loader.get_template('StudentHub/ContactDev.html')
+    devList = User.objects.all().values() # this has to be replaced with contacts
+    context = {
+        'activity': 'contact_dev',
+        'devList': devList,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def contact_dev_save(request):
+    title = request.POST['title']
+    date_now = datetime.datetime.today().strftime('%Y-%m-%d %H:%M')
+    description = request.POST['description']
+    developer = request.POST['developer']
+
+    if (not title.isidentifier()) or description.isspace() or description == '':
+        messages.error(request, 'Please complete all the fields with the right values.')
+        return HttpResponseRedirect(reverse('contact_dev'))
+
+    #print(title, ' ', date_now, ' ', description, ' ', developer)
+
+    return HttpResponseRedirect(reverse('hub'))
+

@@ -24,4 +24,6 @@ urlpatterns = [
     path('<slug:slug>/edit/<int:id>/', views.editpost, name='editpost'),
     path('<slug:slug>/edit/<int:id>/save/', views.editpost_save, name='editpost_save'),
     path('search/bar/', views.search_bar, name='search'),
+    path('contact/dev/', views.contact_dev, name='contact_dev'),
+    path('contact/dev/save/', views.contact_dev_save, name='contact_dev_save'),
 ]
