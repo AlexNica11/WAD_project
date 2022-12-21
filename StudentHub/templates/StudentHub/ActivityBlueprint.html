@@ -101,6 +101,22 @@
         {% endif %}
     {% if activity == 'contact' %}
         <a class="w3-button" href="{% url 'contact_dev' %}">Contact Dev</a>
+        {% for x in devList %}
+            {% if user == x.full_name %}
+                {% for y in questionList %}
+                <div class="w3-display-container w3-hover-border-dark-gray" style="border-style: solid;border-width: 2px;border-color:gray; height:300px;">
+                    <div style="margin-left:5px">
+                        <h1 style="margin-top:-10px">{{ y.title }}</h1>
+                        <h4 style="margin-bottom:30px;margin-top:-10px">{{ y.user_id }} <!--activity={{ slug }}--></h4>
+                        <h3 >Description:</h3>
+                        <h4 style="margin-left:20px;margin-top:-10px">{{ y.message }}</h4>
+                    </div>
+                    <!--<h4>id={{ x.id }}</h4>-->
+                    <h4 class="w3-display-bottomright" style="margin-right: 5px">Published: {{ y.date }}</h4>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
     {% endif %}
     </div>
 {% endblock %}
