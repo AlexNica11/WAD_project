@@ -2,7 +2,7 @@ import datetime
 import re
 import django.forms.widgets
 
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -184,27 +184,9 @@ def deletedata(request, id, slug):
 def activity(request, slug):
     if not request.user.is_authenticated:
         return redirect('login-user')
-    # checkPermission = False
-    # if request.user.groups.filter(name='Moderators').exists():
-    #     checkPermission = True
-    # print('activity ' + slug)
+
     template = loader.get_template('StudentHub/ActivityBlueprint.html')
-    # if slug == 'contact' and request.user.groups.filter(name='Developers').exists():
-    #     print('contact')
-    #     try:
-    #         dev = Questions.objects.select_related('contact_id').select_related('contact_id__dev_id').filter(contact_id__dev_id__username=request.user)
-    #     except Exception as excep:
-    #         print('Contact error: ' + str(excep))
-    #
-    #     for x1 in dev:
-    #         print(dev.title)
-    #     questionList = None # Questions. # Questions.objects.filter(contact_id=Contacts.objects.filter(dev_id))
-    #     context = {
-    #         'questionList': 'questionList',
-    #         'slug': slug,
-    #     }
-    #
-    # else:
+
     data = HubPageDataModel.objects.all()
     date_now = datetime.datetime.today().strftime('%Y-%m-%d %H:%M')
 
@@ -221,10 +203,9 @@ def activity(request, slug):
         print('Contact error: ' + str(excep))
 
     devList = Contacts.objects.all()
-    # for x1 in devList:
-    #     print(x1.full_name)
-    # print('request: ', request.user)
-    # print('sheesh: ', (User.objects.get(username=request.user).first_name + ' ' + User.objects.get(username=request.user).last_name))
+
+    totalUsers = User.objects.all().count()
+
     context = {
         'activity': slug,
         'dataList': data.filter(subject=slug),
@@ -233,6 +214,7 @@ def activity(request, slug):
         'devList': devList,
         'questionList': questionList,
         'user': (User.objects.get(username=request.user).first_name + ' ' + User.objects.get(username=request.user).last_name),
+        'totalUsers': totalUsers,
     }
 
     return HttpResponse(template.render(context, request))

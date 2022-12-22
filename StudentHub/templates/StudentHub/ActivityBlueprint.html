@@ -100,6 +100,7 @@
             <h4 class="w3-margin-left">As a brand new startup, our company wants to bring people closer together through technology.</h4>
         {% endif %}
     {% if activity == 'contact' %}
+        <h4 class="w3-margin-left">Total signed up users: {{ totalUsers }}</h4>
         <a class="w3-button" href="{% url 'contact_dev' %}">Contact Dev</a>
         {% for x in devList %}
             {% if user == x.full_name %}
